@@ -14,12 +14,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import database.models.Product;
-import database.models.User;
+//import database.models.Product;
 
 
 public class CrearUsuario extends AppCompatActivity {
@@ -36,7 +34,7 @@ public class CrearUsuario extends AppCompatActivity {
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true); //funcionalidad de hacer click y retroceder
         //mFirebase = FirebaseFirestore.getInstance();//Apuntamos a la BD
 
-        Product p = new Product("Nuevo");
+       /* Product p = new Product("Nuevo");
         p.Add();
 
         User user = new User( "test","test");
@@ -47,7 +45,7 @@ public class CrearUsuario extends AppCompatActivity {
             user.GetAll();
         for (User user1 : user.users) {
             
-        }
+        }*/
 
         //User user1 = user.findByID("1");
 
