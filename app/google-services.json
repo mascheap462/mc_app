@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "557581061600",
-    "project_id": "pruebalogin-dfe15",
-    "storage_bucket": "pruebalogin-dfe15.appspot.com"
+    "project_number": "853216607069",
+    "project_id": "mascheap-89690",
+    "storage_bucket": "mascheap-89690.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:557581061600:android:e2cd4b98e269ce01cf2f85",
+        "mobilesdk_app_id": "1:853216607069:android:48c560b1e5220c007346b4",
         "android_client_info": {
           "package_name": "com.example.mascheap"
         }
       },
       "oauth_client": [
         {
-          "client_id": "557581061600-85t5srk7usbvbd9lsq2f2jtk10gk28jr.apps.googleusercontent.com",
+          "client_id": "853216607069-rupumkut1pfant4fv76vl9tq37vcbdff.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALe5dk75b_HpbXDxxIiwKbuJXRFUVMQYI"
+          "current_key": "AIzaSyBCwGOkr7g-Rf_JH8JySaxfT6xTGshxhdI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "557581061600-85t5srk7usbvbd9lsq2f2jtk10gk28jr.apps.googleusercontent.com",
+              "client_id": "853216607069-rupumkut1pfant4fv76vl9tq37vcbdff.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
