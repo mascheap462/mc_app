@@ -37,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CrearUsuario.class));//para indicar hacia donde queremos ir (Accion de navegar entre ventanas)
             }
         });*/
+
     FirebaseAuth auth;
-    Button button;
+    Button button, shareButton;
     TextView textView;
     FirebaseUser user;
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.cerrarSesion);
         textView = findViewById(R.id.datosUsuario);
+        shareButton = findViewById(R.id.shareButton);
         user = auth.getCurrentUser();
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -84,5 +86,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    //Metodo para compartir publicaciones
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                String body = "¡Mira lo que he encontrado!";
+
+                //enlace = nombre producto +  marca + localización + precio
+                String enlace = "https://medac.instructure.com/";
+                intent.putExtra(Intent.EXTRA_SUBJECT, body);
+                intent.putExtra(Intent.EXTRA_TEXT, enlace);
+
+                startActivity(Intent.createChooser(intent, "Compartir"));
+            }
+        });
     }
 }
