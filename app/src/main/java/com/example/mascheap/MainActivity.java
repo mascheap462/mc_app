@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     // Textos
     //TextView textView;
     // Botones
+    ImageButton btnRegreso;
     ImageButton btnAjustes;
     Button btnCerrarSesion;
 
@@ -70,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         // !!!IMPORTANTE!!! Todo lo que tiene que ver con login esta desactivado para poder hacer pruebas
 
         //auth = FirebaseAuth.getInstance();
-        btnAjustes = findViewById(R.id.botonAjustes);
+        btnRegreso = findViewById(R.id.btnRegresar);
+        btnAjustes = findViewById(R.id.btnAjustes);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
         //textView = findViewById(R.id.txtCorreoUsuario);
         //user = auth.getCurrentUser();
@@ -96,10 +98,39 @@ public class MainActivity extends AppCompatActivity {
 //                        "6b0c9e74-e717-4045-b9a3-409fd748dbba");
 
 
+        btnRegreso.setVisibility(View.INVISIBLE);
+
+        btnRegreso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Utilizar el mismo switch para este click y el bottomNav
+                btnRegreso.setVisibility(View.INVISIBLE);
+                btnAjustes.setVisibility(View.VISIBLE);
+
+                switch(binding.bottomNavigationView.getSelectedItemId()) {
+
+                    case R.id.principal:
+                        replaceFragment(new PrincipalFragment());
+                        break;
+                    case R.id.buscar:
+                        replaceFragment(new BuscarFragment());
+                        break;
+                    case R.id.ofertas:
+                        replaceFragment(new OfertasFragment());
+                        break;
+                    case R.id.carritos:
+                        replaceFragment(new CarritosFragment());
+                        break;
+                }
+            }
+        });
+
         btnAjustes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 replaceFragment(new AjustesFragment());
+                btnAjustes.setVisibility(View.INVISIBLE);
+                btnRegreso.setVisibility(View.VISIBLE);
             }
         });
 

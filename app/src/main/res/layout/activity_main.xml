@@ -25,7 +25,7 @@
             android:layout_marginBottom="15dp">
 
             <ImageButton
-                android:id="@+id/botonRegresar"
+                android:id="@+id/btnRegresar"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
@@ -44,7 +44,7 @@
                 app:tint="@color/mc_accent" />
 
             <ImageButton
-                android:id="@+id/botonAjustes"
+                android:id="@+id/btnAjustes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
