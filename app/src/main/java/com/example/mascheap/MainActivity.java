@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,10 +49,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
+    // Firebase
     FirebaseAuth auth;
-    Button buttonCerrarSesion;
-    TextView textView;
     FirebaseUser user;
+
+    // Textos
+    //TextView textView;
+    // Botones
+    ImageButton btnAjustes;
+    Button btnCerrarSesion;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -64,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
         // !!!IMPORTANTE!!! Todo lo que tiene que ver con login esta desactivado para poder hacer pruebas
 
         //auth = FirebaseAuth.getInstance();
-        buttonCerrarSesion = findViewById(R.id.cerrarSesion);
-        textView = findViewById(R.id.datosUsuario);
+        btnAjustes = findViewById(R.id.botonAjustes);
+        btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
+        //textView = findViewById(R.id.txtCorreoUsuario);
         //user = auth.getCurrentUser();
 
 //        if (user == null) {
@@ -88,17 +95,25 @@ public class MainActivity extends AppCompatActivity {
 //                        new User(),
 //                        "6b0c9e74-e717-4045-b9a3-409fd748dbba");
 
-        // Este boton de cerrar de sesion se tiene que trasladar a otra pantalla
-        buttonCerrarSesion.setOnClickListener(new View.OnClickListener() {
+
+        btnAjustes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
-
+                replaceFragment(new AjustesFragment());
             }
         });
+
+        // Este boton de cerrar de sesion se tiene que trasladar a otra pantalla
+//        btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FirebaseAuth.getInstance().signOut();
+//                Intent intent = new Intent(getApplicationContext(), Login.class);
+//                startActivity(intent);
+//                finish();
+//
+//            }
+//        });
 
         // Boton del menu de navegacion - Arreglar
 
@@ -137,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.linearLayout, fragment);
+        fragmentTransaction.replace(R.id.fragmentoContenido, fragment);
         fragmentTransaction.commit();
     }
 
