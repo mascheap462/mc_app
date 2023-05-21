@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
     FirebaseAuth auth;
-    Button button;
+    Button buttonCerrarSesion;
     TextView textView;
     FirebaseUser user;
 
@@ -57,34 +57,39 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.cerrarSesion);
+
+        // !!!IMPORTANTE!!! Todo lo que tiene que ver con login esta desactivado para poder hacer pruebas
+
+        //auth = FirebaseAuth.getInstance();
+        buttonCerrarSesion = findViewById(R.id.cerrarSesion);
         textView = findViewById(R.id.datosUsuario);
-        user = auth.getCurrentUser();
+        //user = auth.getCurrentUser();
 
-        if (user == null) {
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
-        } else {
-            textView.setText(user.getEmail());
-        }
+//        if (user == null) {
+//            Intent intent = new Intent(getApplicationContext(), Login.class);
+//            startActivity(intent);
+//            finish();
+//        } else {
+//            textView.setText("prueba");
+//        }
+//
+//        MasCheapFirestore.getInstance()
+//                .GetAll((FirestoreCallbackList<User>) users -> Log.d(TAG, users.toString()), new User());
+//
+//        MasCheapFirestore.getInstance()
+//                .GetById((FirestoreCallback<User>) user ->
+//                        {
+//                            Log.d(TAG, user.email);
+//                            Log.d(TAG, user.username);
+//                        },
+//                        new User(),
+//                        "6b0c9e74-e717-4045-b9a3-409fd748dbba");
 
-        MasCheapFirestore.getInstance()
-                .GetAll((FirestoreCallbackList<User>) users -> Log.d(TAG, users.toString()), new User());
-
-        MasCheapFirestore.getInstance()
-                .GetById((FirestoreCallback<User>) user ->
-                        {
-                            Log.d(TAG, user.email);
-                            Log.d(TAG, user.username);
-                        },
-                        new User(),
-                        "6b0c9e74-e717-4045-b9a3-409fd748dbba");
-
-        button.setOnClickListener(new View.OnClickListener() {
+        // Este boton de cerrar de sesion se tiene que trasladar a otra pantalla
+        buttonCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Boton del menu de navegacion - Arreglar
-        /*
+
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             switch(item.getItemId()) {
@@ -117,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
-        */
+
 
         /* La visibilidad de la barra inferior de navegación dependerá de tener una sesió iniciada
         * o no. Aunque también puede que para manejarlo lo tengamos en otra Actividad, pero la verdad
@@ -135,5 +140,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.linearLayout, fragment);
         fragmentTransaction.commit();
     }
+
+    // Comentario prueba stash
 
 }
