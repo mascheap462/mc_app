@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
         btnAjustes = findViewById(R.id.btnAjustes);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
 
-        // Valores iniciales de visibilidad
+        // Valores iniciales y visibilidad
+        replaceFragment(new PrincipalFragment());
         btnRegreso.setVisibility(View.INVISIBLE);
 
         // Comprobaci'on
@@ -92,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
-        } else {
-            txtCorreo.setText("prueba");
         }
 
         MasCheapFirestore.getInstance()
