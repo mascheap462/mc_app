@@ -12,23 +12,33 @@ import database.models.entities.BaseEntity;
 import database.models.entities.User;
 
 public class Producto extends BaseEntity {
-    private int cantidad;
+    private String cantidad;
     private String nombre;
     private String descripcion;
     private String precio;
     private String marca;
-    private String catergoria;
+    private String categoria;
+    private String url;
 
-    public Producto(String nombre,int cantidad,String descripcion, String precio, String marca, String catergoria) {
+    public Producto(String nombre,String cantidad,String descripcion, String precio, String marca, String categoria, String url) {
         this.descripcion = descripcion;
         this.precio = precio;
         this.marca = marca;
-        this.catergoria = catergoria;
+        this.categoria = categoria;
         this.cantidad= cantidad;
         this.nombre = nombre;
+        this.url = url;
     }
 
     public Producto(){}
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getDescripcion() {
         return descripcion;
@@ -54,19 +64,19 @@ public class Producto extends BaseEntity {
         this.marca = marca;
     }
 
-    public String getCatergoria() {
-        return catergoria;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setCatergoria(String catergoria) {
-        this.catergoria = catergoria;
+    public void setCatergoria(String categoria) {
+        this.categoria = categoria;
     }
 
-    public int getCantidad() {
+    public String getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
     }
 

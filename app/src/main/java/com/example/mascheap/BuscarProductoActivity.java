@@ -67,11 +67,14 @@ public class BuscarProductoActivity extends AppCompatActivity {
         ArrayList<Producto> productosFiltrados = (ArrayList<Producto>) productos
                 .stream()
                 .filter(f -> f.getNombre().toLowerCase(Locale.ROOT)
-                        .contains(s.toLowerCase(Locale.ROOT)) )
+                        .contains(s.toLowerCase(Locale.ROOT))
+                || f.getCategoria().toLowerCase(Locale.ROOT)
+                        .contains(s.toLowerCase(Locale.ROOT))
+                || f.getMarca().toLowerCase(Locale.ROOT)
+                        .contains(s.toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
         productoAdapter = new ProductoAdaptador(productosFiltrados, this);
         productoRV.setAdapter(productoAdapter);
-       // productoAdapter.notifyDataSetChanged();
     }
     @Override
     public boolean onSupportNavigateUp() {

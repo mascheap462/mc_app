@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mascheap.modelo.Producto;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import database.models.MasCheapFirestore;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
    Button btn_buscar;
 
     FirebaseAuth auth;
-    Button button;
+    Button button, buttonCargar;
     TextView textView;
     FirebaseUser user;
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.cerrarSesion);
         textView = findViewById(R.id.datosUsuario);
+        buttonCargar = findViewById(R.id.btn_add);
         user = auth.getCurrentUser();
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -48,29 +51,34 @@ public class MainActivity extends AppCompatActivity {
         } else {
             textView.setText(user.getEmail());
         }
-       /* private CourseRVAdapter courseRVAdapter;
-        courseRV.setAdapter(courseRVAdapter);
-        MasCheapFirestore.getInstance()
-                .GetAll(new FirestoreCallbackList() {
-                    @Override
-                    public void onCallback(List users) {
-                        Log.d(TAG, users.toString());
-                        courseRVAdapter = new CourseRVAdapter(users, this);
-                        courseRVAdapter.notifyDataSetChanged();
+
+        buttonCargar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ArrayList<Producto> productos = new ArrayList<Producto>(){
+                    {
+                        add(new Producto("Leche sin lactosa", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "0.90", "Hacendado", "Lacteos","https://prod-mercadona.imgix.net/images/4c383f76349faee5a3c079c48d3dcb44.jpg?fit=crop&h=1300&w=1300"));
+                        add(new Producto("Leche semidesnatada", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "0.88", "Milbona", "Lacteos","https://es.openfoodfacts.org/images/products/20037321/front_es.29.full.jpg"));
+                        add( new Producto("Leche entera", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.50", "Puleva", "Lacteos","https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202205/03/00120912100052____13__600x600.jpg"));
+                        add( new Producto("Macarrones vegetales", "1.5 kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.10", "Gallo", "Pastas","https://www.pastasgallo.es/wp-content/uploads/2020/12/GALLO-Nature-Multivegetales-Helices-Remolacha-Curcuma-Espirulina-400g-1.png"));
+                        add( new Producto("Macarrones ", "1 kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "0.75", "Carrefour", "Pastas","https://static.carrefour.es/hd_510x_/img_pim_food/226607_00_1.jpg"));
+                        add( new Producto("Cocacola", "1.5 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.60", "Cocacola", "Refresco","https://c-pi.niceshops.com/upload/image/product/large/default/45789_98fd2e0a.1024x1024.jpg"));
+                        add( new Producto("Fanta naranja", "1.5 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.50", "Fanta", "Refresco","https://s4d-images.telepizza.es/Products/Original/Botella_2L__Fanta_Naranja-914.jpg"));
+                        add( new Producto("Cola", "2 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "0.70", "Freeway", "Refresco","https://static-product-catalog.lidlplus.com/images/ES/ES_0002458/1_v4_big.jpg"));
+                        add( new Producto("Casera naranja", "1.5 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.36", "Casera", "Refresco","https://yourspanishcorner.com/5482-large_default/la-casera-sabor-naranja-15-l.jpg"));
+                        add( new Producto("Arroz", "1 Kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "1", "Sos", "Legumbres","https://static.carrefour.es/hd_510x_/img_pim_food/002277_00_1.jpg"));
+                        add( new Producto("Arroz Bomba", "1 Kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "5", "Bayo", "Legumbres","https://www.comergrup.com/img/fotografias/2711004100.jpg"));
+                        add( new Producto("Arroz Bomba", "1 Kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "1", "Hacendado", "Legumbres","https://prod-mercadona.imgix.net/images/696d7c325a27f1bcc0b2244e7e3ecb2c.jpg?fit=crop&h=600&w=600"));
+                        add( new Producto("Arroz", "1 Kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.5", "Brillante", "Legumbres","https://www.hechoenandalucia.net/1040-large_default/arroz-vaporizado-brillante-.jpg"));
+
                     }
-                }, new User()) ;
-*/
-        MasCheapFirestore.getInstance()
-                .GetById((FirestoreCallback<User>) user ->
-                        {
-                            Log.d(TAG, user.email);
-                            Log.d(TAG, user.username);
-/*
-                            userRVAdapter = new userRVAdapter(user, this);
-                            userRVAdapter.notifyDataSetChanged();*/
-                        },
-                        new User(),
-                        "6b0c9e74-e717-4045-b9a3-409fd748dbba");
+                };
+                for(Producto p : productos){
+                    MasCheapFirestore.getInstance().Add(p);
+                }
+            }
+        });
+
 
 
         button.setOnClickListener(new View.OnClickListener() {
