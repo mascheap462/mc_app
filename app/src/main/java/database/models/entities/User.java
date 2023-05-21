@@ -39,6 +39,7 @@ public class User extends BaseEntity {
 
     @Override
     public BaseEntity Document(DocumentSnapshot document) {
+
         return document.toObject(User.class);
     }
 

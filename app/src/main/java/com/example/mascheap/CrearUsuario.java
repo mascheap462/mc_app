@@ -31,23 +31,8 @@ public class CrearUsuario extends AppCompatActivity {
         setContentView(R.layout.activity_crear_usuario);
 
         this.setTitle("Crear usuario");
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true); //funcionalidad de hacer click y retroceder
-        //mFirebase = FirebaseFirestore.getInstance();//Apuntamos a la BD
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-       /* Product p = new Product("Nuevo");
-        p.Add();
-
-        User user = new User( "test","test");
-        user.Add();
-        user.username = "nuevo nombre";
-        user.Update();
-       
-            user.GetAll();
-        for (User user1 : user.users) {
-            
-        }*/
-
-        //User user1 = user.findByID("1");
 
     }
 
@@ -74,7 +59,6 @@ public class CrearUsuario extends AppCompatActivity {
 
         }
 
-    //metodo para retroceder
 
     @Override
     public boolean onSupportNavigateUp() {

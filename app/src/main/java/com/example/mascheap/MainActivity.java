@@ -16,27 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
+
 import database.models.MasCheapFirestore;
 import database.models.callbacks.FirestoreCallback;
 import database.models.callbacks.FirestoreCallbackList;
 import database.models.entities.User;
 
 public class MainActivity extends AppCompatActivity {
-    /*Button btn_agregar1;
-    @SuppressLint("MissingInflatedId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //se instancia boton
-        btn_agregar1 = findViewById(R.id.btn1);
-        //evento boton
-        btn_agregar1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CrearUsuario.class));//para indicar hacia donde queremos ir (Accion de navegar entre ventanas)
-            }
-        });*/
+   Button btn_buscar;
+
     FirebaseAuth auth;
     Button button;
     TextView textView;
@@ -59,18 +48,30 @@ public class MainActivity extends AppCompatActivity {
         } else {
             textView.setText(user.getEmail());
         }
-
+       /* private CourseRVAdapter courseRVAdapter;
+        courseRV.setAdapter(courseRVAdapter);
         MasCheapFirestore.getInstance()
-                .GetAll((FirestoreCallbackList<User>) users -> Log.d(TAG, users.toString()), new User());
-
+                .GetAll(new FirestoreCallbackList() {
+                    @Override
+                    public void onCallback(List users) {
+                        Log.d(TAG, users.toString());
+                        courseRVAdapter = new CourseRVAdapter(users, this);
+                        courseRVAdapter.notifyDataSetChanged();
+                    }
+                }, new User()) ;
+*/
         MasCheapFirestore.getInstance()
                 .GetById((FirestoreCallback<User>) user ->
                         {
                             Log.d(TAG, user.email);
                             Log.d(TAG, user.username);
+/*
+                            userRVAdapter = new userRVAdapter(user, this);
+                            userRVAdapter.notifyDataSetChanged();*/
                         },
                         new User(),
                         "6b0c9e74-e717-4045-b9a3-409fd748dbba");
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
 
+            }
+        });
+        btn_buscar = findViewById(R.id.btn_buscar);
+        btn_buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, BuscarProductoActivity.class));
             }
         });
 
