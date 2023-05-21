@@ -84,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Valores iniciales y visibilidad
         replaceFragment(new PrincipalFragment());
-        btnRegreso.setVisibility(View.INVISIBLE);
+
+        desactivarBoton(btnRegreso);
+        activarBoton(btnAjustes);
 
         // Comprobaci'on
         if (user == null) {
@@ -109,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Utilizar el mismo switch para este click y el bottomNav
-                btnRegreso.setVisibility(View.INVISIBLE);
-                btnAjustes.setVisibility(View.VISIBLE);
+                desactivarBoton(btnRegreso);
+                activarBoton(btnAjustes);
 
                 switch(binding.bottomNavigationView.getSelectedItemId()) {
 
@@ -134,8 +136,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 replaceFragment(new AjustesFragment());
-                btnAjustes.setVisibility(View.INVISIBLE);
-                btnRegreso.setVisibility(View.VISIBLE);
+                desactivarBoton(btnAjustes);
+                activarBoton(btnRegreso);
+
             }
         });
 
@@ -189,6 +192,16 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentoContenido, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void activarBoton(ImageButton boton) {
+        boton.setClickable(true);
+        boton.setColorFilter(getResources().getColor(R.color.mc_hardGrey));
+    }
+
+    private void desactivarBoton(ImageButton boton) {
+        boton.setClickable(false);
+        boton.setColorFilter(getResources().getColor(R.color.mc_softGrey));
     }
 
     // Comentario prueba stash
