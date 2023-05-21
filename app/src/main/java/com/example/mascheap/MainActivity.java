@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
+    // Codigo antiguo sin usar
     /*Button btn_agregar1;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,12 +50,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
+    // DECLARACIONES
+
     // Firebase
     FirebaseAuth auth;
     FirebaseUser user;
-
     // Textos
-    //TextView textView;
+    TextView txtCorreo;
     // Botones
     ImageButton btnRegreso;
     ImageButton btnAjustes;
@@ -64,41 +66,47 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ASIGNACIONES
+
+        // Layout
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         // !!!IMPORTANTE!!! Todo lo que tiene que ver con login esta desactivado para poder hacer pruebas
-
-        //auth = FirebaseAuth.getInstance();
+        // Firebase
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        // Textos
+        txtCorreo = findViewById(R.id.txtCorreoUsuario);
+        // Botones
         btnRegreso = findViewById(R.id.btnRegresar);
         btnAjustes = findViewById(R.id.btnAjustes);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
-        //textView = findViewById(R.id.txtCorreoUsuario);
-        //user = auth.getCurrentUser();
 
-//        if (user == null) {
-//            Intent intent = new Intent(getApplicationContext(), Login.class);
-//            startActivity(intent);
-//            finish();
-//        } else {
-//            textView.setText("prueba");
-//        }
-//
-//        MasCheapFirestore.getInstance()
-//                .GetAll((FirestoreCallbackList<User>) users -> Log.d(TAG, users.toString()), new User());
-//
-//        MasCheapFirestore.getInstance()
-//                .GetById((FirestoreCallback<User>) user ->
-//                        {
-//                            Log.d(TAG, user.email);
-//                            Log.d(TAG, user.username);
-//                        },
-//                        new User(),
-//                        "6b0c9e74-e717-4045-b9a3-409fd748dbba");
-
-
+        // Valores iniciales de visibilidad
         btnRegreso.setVisibility(View.INVISIBLE);
+
+        // Comprobaci'on
+        if (user == null) {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+        } else {
+            txtCorreo.setText("prueba");
+        }
+
+        MasCheapFirestore.getInstance()
+                .GetAll((FirestoreCallbackList<User>) users -> Log.d(TAG, users.toString()), new User());
+
+        MasCheapFirestore.getInstance()
+                .GetById((FirestoreCallback<User>) user ->
+                        {
+                            Log.d(TAG, user.email);
+                            Log.d(TAG, user.username);
+                        },
+                        new User(),
+                        "6b0c9e74-e717-4045-b9a3-409fd748dbba");
 
         btnRegreso.setOnClickListener(new View.OnClickListener() {
             @Override
