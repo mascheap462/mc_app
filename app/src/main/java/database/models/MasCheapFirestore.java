@@ -67,7 +67,7 @@ public class MasCheapFirestore {
                 });
     }
 
-    public void GetAll(FirestoreCallbackList myCallback, IBaseEntity entity) {
+    public void GetAll(FirestoreCallbackList myCallback) {
         mDatabase.collection(getName(entity))
                 .get()
                 .addOnCompleteListener(task -> {
