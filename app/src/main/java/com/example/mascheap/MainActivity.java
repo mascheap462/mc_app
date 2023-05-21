@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     // Botones
     ImageButton btnRegreso;
     ImageButton btnAjustes;
-    Button btnCerrarSesion;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -82,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         // Botones
         btnRegreso = findViewById(R.id.btnRegresar);
         btnAjustes = findViewById(R.id.btnAjustes);
-        btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
 
         // Valores iniciales y visibilidad
         replaceFragment(new PrincipalFragment());
@@ -149,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
 //                Intent intent = new Intent(getApplicationContext(), Login.class);
 //                startActivity(intent);
 //                finish();
-//
 //            }
 //        });
 

@@ -1,5 +1,6 @@
 package com.example.mascheap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
@@ -18,6 +19,9 @@ public class AjustesFragment extends Fragment {
     // Declaracion de Firebase
     FirebaseAuth auth;
     FirebaseUser user;
+
+    TextView txtCorreo;
+    Button btnCerrarSesion;
 
     // Metodo newInstace
 //    public static AjustesFragment newInstance(String param1, String param2) {
@@ -50,11 +54,25 @@ public class AjustesFragment extends Fragment {
 
         // Obtengo la vista padre
         View view = inflater.inflate(R.layout.fragment_ajustes, container, false);
-        TextView txtCorreo = view.findViewById(R.id.txtCorreoUsuario);
+
+        txtCorreo = view.findViewById(R.id.txtCorreoUsuario);
+        btnCerrarSesion = view.findViewById(R.id.btnCerrarSesion);
+
+        btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(requireContext(), Login.class);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+        });
 
         // Le asigno al capo de correo el del usuario actual
         txtCorreo.setText(user.getEmail().toString());
         return view;
+
     }
+
 
 }
