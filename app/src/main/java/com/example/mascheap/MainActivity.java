@@ -1,6 +1,10 @@
 package com.example.mascheap;
 
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
@@ -9,96 +13,197 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mascheap.modelo.Producto;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import database.models.MasCheapFirestore;
 import database.models.callbacks.FirestoreCallback;
 import database.models.callbacks.FirestoreCallbackList;
 import database.models.entities.User;
 
-public class MainActivity extends AppCompatActivity {
-   Button btn_buscar;
+import com.example.mascheap.databinding.ActivityMainBinding;
 
+public class MainActivity extends AppCompatActivity {
+
+    ActivityMainBinding binding;
+
+    // Codigo antiguo sin usar
+    /*Button btn_agregar1;
+    @SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        //se instancia boton
+        btn_agregar1 = findViewById(R.id.btn1);
+        //evento boton
+        btn_agregar1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CrearUsuario.class));//para indicar hacia donde queremos ir (Accion de navegar entre ventanas)
+            }
+        });*/
+
+    // DECLARACIONES
+
+    // Firebase
     FirebaseAuth auth;
-    Button button, buttonCargar;
-    TextView textView;
     FirebaseUser user;
+    // Textos
+    TextView txtCorreo;
+    // Botones
+    ImageButton btnRegreso;
+    ImageButton btnAjustes;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        // ASIGNACIONES
+
+        // Layout
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // !!!IMPORTANTE!!! Todo lo que tiene que ver con login esta desactivado para poder hacer pruebas
+        // Firebase
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.cerrarSesion);
-        textView = findViewById(R.id.datosUsuario);
-        buttonCargar = findViewById(R.id.btn_add);
         user = auth.getCurrentUser();
+        // Textos
+        txtCorreo = findViewById(R.id.txtCorreoUsuario);
+        // Botones
+        btnRegreso = findViewById(R.id.btnRegresar);
+        btnAjustes = findViewById(R.id.btnAjustes);
+
+        // Valores iniciales y visibilidad
+        replaceFragment(new PrincipalFragment());
+
+        desactivarBoton(btnRegreso);
+        activarBoton(btnAjustes);
+
+        // Comprobaci'on
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
-        } else {
-            textView.setText(user.getEmail());
         }
 
-        buttonCargar.setOnClickListener(new View.OnClickListener(){
+        MasCheapFirestore.getInstance()
+                .GetAll((FirestoreCallbackList<User>) users -> Log.d(TAG, users.toString()), new User());
+
+        MasCheapFirestore.getInstance()
+                .GetById((FirestoreCallback<User>) user ->
+                        {
+                            Log.d(TAG, user.email);
+                            Log.d(TAG, user.username);
+                        },
+                        new User(),
+                        "6b0c9e74-e717-4045-b9a3-409fd748dbba");
+
+        btnRegreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Producto> productos = new ArrayList<Producto>(){
-                    {
-                        add(new Producto("Leche sin lactosa", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "0.90", "Hacendado", "Lacteos","https://prod-mercadona.imgix.net/images/4c383f76349faee5a3c079c48d3dcb44.jpg?fit=crop&h=1300&w=1300"));
-                        add(new Producto("Leche semidesnatada", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "0.88", "Milbona", "Lacteos","https://es.openfoodfacts.org/images/products/20037321/front_es.29.full.jpg"));
-                        add( new Producto("Leche entera", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.50", "Puleva", "Lacteos","https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202205/03/00120912100052____13__600x600.jpg"));
-                        add( new Producto("Macarrones vegetales", "1.5 kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.10", "Gallo", "Pastas","https://www.pastasgallo.es/wp-content/uploads/2020/12/GALLO-Nature-Multivegetales-Helices-Remolacha-Curcuma-Espirulina-400g-1.png"));
-                        add( new Producto("Macarrones ", "1 kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "0.75", "Carrefour", "Pastas","https://static.carrefour.es/hd_510x_/img_pim_food/226607_00_1.jpg"));
-                        add( new Producto("Cocacola", "1.5 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.60", "Cocacola", "Refresco","https://c-pi.niceshops.com/upload/image/product/large/default/45789_98fd2e0a.1024x1024.jpg"));
-                        add( new Producto("Fanta naranja", "1.5 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.50", "Fanta", "Refresco","https://s4d-images.telepizza.es/Products/Original/Botella_2L__Fanta_Naranja-914.jpg"));
-                        add( new Producto("Cola", "2 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "0.70", "Freeway", "Refresco","https://static-product-catalog.lidlplus.com/images/ES/ES_0002458/1_v4_big.jpg"));
-                        add( new Producto("Casera naranja", "1.5 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.36", "Casera", "Refresco","https://yourspanishcorner.com/5482-large_default/la-casera-sabor-naranja-15-l.jpg"));
-                        add( new Producto("Arroz", "1 Kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "1", "Sos", "Legumbres","https://static.carrefour.es/hd_510x_/img_pim_food/002277_00_1.jpg"));
-                        add( new Producto("Arroz Bomba", "1 Kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "5", "Bayo", "Legumbres","https://www.comergrup.com/img/fotografias/2711004100.jpg"));
-                        add( new Producto("Arroz Bomba", "1 Kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "1", "Hacendado", "Legumbres","https://prod-mercadona.imgix.net/images/696d7c325a27f1bcc0b2244e7e3ecb2c.jpg?fit=crop&h=600&w=600"));
-                        add( new Producto("Arroz", "1 Kg", "eget duis at tellus at urna condimentum mattis pellentesque id", "1.5", "Brillante", "Legumbres","https://www.hechoenandalucia.net/1040-large_default/arroz-vaporizado-brillante-.jpg"));
+                // Utilizar el mismo switch para este click y el bottomNav
+                desactivarBoton(btnRegreso);
+                activarBoton(btnAjustes);
 
-                    }
-                };
-                for(Producto p : productos){
-                    MasCheapFirestore.getInstance().Add(p);
+                switch(binding.bottomNavigationView.getSelectedItemId()) {
+
+                    case R.id.principal:
+                        replaceFragment(new PrincipalFragment());
+                        break;
+                    case R.id.buscar:
+                        replaceFragment(new BuscarFragment());
+                        break;
+                    case R.id.ofertas:
+                        replaceFragment(new OfertasFragment());
+                        break;
+                    case R.id.carritos:
+                        replaceFragment(new CarritosFragment());
+                        break;
                 }
             }
         });
 
-
-
-        button.setOnClickListener(new View.OnClickListener() {
+        btnAjustes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
+                replaceFragment(new AjustesFragment());
+                desactivarBoton(btnAjustes);
+                activarBoton(btnRegreso);
 
             }
         });
-        btn_buscar = findViewById(R.id.btn_buscar);
-        btn_buscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, BuscarProductoActivity.class));
+
+        // Este boton de cerrar de sesion se tiene que trasladar a otra pantalla
+//        btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FirebaseAuth.getInstance().signOut();
+//                Intent intent = new Intent(getApplicationContext(), Login.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+
+        // Boton del menu de navegacion - Arreglar
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            switch(item.getItemId()) {
+
+                case R.id.principal:
+                    replaceFragment(new PrincipalFragment());
+                    break;
+                case R.id.buscar:
+                    replaceFragment(new BuscarFragment());
+                    break;
+                case R.id.ofertas:
+                    replaceFragment(new OfertasFragment());
+                    break;
+                case R.id.carritos:
+                    replaceFragment(new CarritosFragment());
+                    break;
             }
+
+            return true;
         });
 
+
+        /* La visibilidad de la barra inferior de navegación dependerá de tener una sesió iniciada
+        * o no. Aunque también puede que para manejarlo lo tengamos en otra Actividad, pero la verdad
+        * es que no tengo ni idea de cómo se hacen aplicaciones Android y estoy un poco harto
+        * así que por ahora está así. */
+        // binding.bottomNavigationView.setVisibility(View.VISIBLE);
 
     }
+
+
+    // Metodo para cambiar de fragmento usando el menu inferior
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentoContenido, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void activarBoton(ImageButton boton) {
+        boton.setClickable(true);
+        boton.setColorFilter(getResources().getColor(R.color.mc_hardGrey));
+    }
+
+    private void desactivarBoton(ImageButton boton) {
+        boton.setClickable(false);
+        boton.setColorFilter(getResources().getColor(R.color.mc_softGrey));
+    }
+
+    // Comentario prueba stash
+
 }

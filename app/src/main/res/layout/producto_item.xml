@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/gris">
+    app:cardBackgroundColor="@color/mc_hardGrey">
 
     <LinearLayout
         android:layout_width="match_parent"
