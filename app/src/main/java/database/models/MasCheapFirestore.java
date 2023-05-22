@@ -67,7 +67,7 @@ public class MasCheapFirestore {
                 });
     }
 
-    public void GetAll(FirestoreCallbackList myCallback, IBaseEntity entity) {
+    public void GetAll(FirestoreCallbackList myCallback, IBaseEntity entity ) {
         mDatabase.collection(getName(entity))
                 .get()
                 .addOnCompleteListener(task -> {
@@ -97,7 +97,7 @@ public class MasCheapFirestore {
     }
 
     @NonNull
-    private String getName(IBaseEntity entity) {
+    public String getName(IBaseEntity entity) {
         return entity.getClass().getSimpleName().toLowerCase(Locale.ROOT);
     }
 }

@@ -71,7 +71,7 @@
         android:id="@+id/bottomAppBar"
         android:layout_gravity="bottom"
         app:contentInsetStart="0dp">
-        
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,5 +80,5 @@
             app:menu="@menu/bottom_nav_menu"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
-    
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
