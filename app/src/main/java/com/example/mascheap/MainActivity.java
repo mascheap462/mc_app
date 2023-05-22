@@ -12,9 +12,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mascheap.adapter.Adaptador;
+import com.example.mascheap.model.Modelo;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import database.models.MasCheapFirestore;
 import database.models.callbacks.FirestoreCallback;
@@ -22,31 +29,33 @@ import database.models.callbacks.FirestoreCallbackList;
 import database.models.entities.User;
 
 public class MainActivity extends AppCompatActivity {
-    /*Button btn_agregar1;
-    @SuppressLint("MissingInflatedId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //se instancia boton
-        btn_agregar1 = findViewById(R.id.btn1);
-        //evento boton
-        btn_agregar1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CrearUsuario.class));//para indicar hacia donde queremos ir (Accion de navegar entre ventanas)
-            }
-        });*/
     FirebaseAuth auth;
     Button button;
     TextView textView;
     FirebaseUser user;
 
+    RecyclerView mRecycler;
+    Adaptador mAdaptador;
+    FirebaseFirestore mFirestore;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //esta es la linea en la que tengo que modificar el layout en el que quiero iniciar sesion
         setContentView(R.layout.activity_main);
+
+        mFirestore = FirebaseFirestore.getInstance();
+        mRecycler = findViewById(R.id.myRecycler);
+        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        Query query = mFirestore.collection("prueba");
+
+        FirestoreRecyclerOptions<Modelo> firestoreRecyclerOptions =
+                new FirestoreRecyclerOptions.Builder<Modelo>().setQuery(query, Modelo.class).build();
+
+        mAdaptador = new Adaptador(firestoreRecyclerOptions);
+        mAdaptador.notifyDataSetChanged();
+        mRecycler.setAdapter(mAdaptador);
 
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.cerrarSesion);
@@ -84,5 +93,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAdaptador.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAdaptador.stopListening();
     }
 }
