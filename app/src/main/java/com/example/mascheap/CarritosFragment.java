@@ -6,58 +6,59 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CarritosFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.mascheap.adaptador.CarritoAdaptador;
+import com.example.mascheap.adaptador.ProductoAdaptador;
+import com.example.mascheap.modelo.Carrito;
+import com.example.mascheap.modelo.Producto;
+
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
+import database.models.MasCheapFirestore;
+import database.models.callbacks.FirestoreCallbackList;
+
+
 public class CarritosFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView carritoRV;
+    private ArrayList<Carrito> lineas;// =new ArrayList<>();;
+    private CarritoAdaptador carritoAdapter;
+    private View view;
 
     public CarritosFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CarritosFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CarritosFragment newInstance(String param1, String param2) {
-        CarritosFragment fragment = new CarritosFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_carritos, container, false);
+
+        view = inflater.inflate(R.layout.fragment_carritos, container, false);
+
+        carritoRV = view.findViewById(R.id.recycle_carrito);
+        carritoRV.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        MasCheapFirestore.getInstance().GetAll((FirestoreCallbackList<Carrito>) list -> {
+            lineas = (ArrayList<Carrito>) list;
+            carritoAdapter = new CarritoAdaptador(lineas, requireContext());
+            carritoRV.setAdapter(carritoAdapter);
+            /*ArrayList<Carrito> lineas2= (ArrayList<Carrito>) lineas
+                    .stream()
+                    .reduce(r->r.getCantidad().)
+                    .collect(Collectors.toList());*/
+            carritoAdapter.notifyDataSetChanged();
+        }, new Carrito());
+
+        return view;
     }
 }
