@@ -1,6 +1,10 @@
 package com.example.mascheap;
 
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
@@ -9,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,13 +26,20 @@ import database.models.callbacks.FirestoreCallback;
 import database.models.callbacks.FirestoreCallbackList;
 import database.models.entities.User;
 
+import com.example.mascheap.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
+
+    ActivityMainBinding binding;
+
+    // Codigo antiguo sin usar
     /*Button btn_agregar1;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         //se instancia boton
         btn_agregar1 = findViewById(R.id.btn1);
         //evento boton
@@ -37,27 +49,50 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CrearUsuario.class));//para indicar hacia donde queremos ir (Accion de navegar entre ventanas)
             }
         });*/
+
+    // DECLARACIONES
+
+    // Firebase
     FirebaseAuth auth;
-    Button button;
-    TextView textView;
     FirebaseUser user;
+    // Textos
+    TextView txtCorreo;
+    // Botones
+    ImageButton btnRegreso;
+    ImageButton btnAjustes;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        // ASIGNACIONES
+
+        // Layout
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // !!!IMPORTANTE!!! Todo lo que tiene que ver con login esta desactivado para poder hacer pruebas
+        // Firebase
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.cerrarSesion);
-        textView = findViewById(R.id.datosUsuario);
         user = auth.getCurrentUser();
+        // Textos
+        txtCorreo = findViewById(R.id.txtCorreoUsuario);
+        // Botones
+        btnRegreso = findViewById(R.id.btnRegresar);
+        btnAjustes = findViewById(R.id.btnAjustes);
+
+        // Valores iniciales y visibilidad
+        replaceFragment(new PrincipalFragment());
+
+        desactivarBoton(btnRegreso);
+        activarBoton(btnAjustes);
+
+        // Comprobaci'on
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
-        } else {
-            textView.setText(user.getEmail());
         }
 
         MasCheapFirestore.getInstance()
@@ -72,17 +107,103 @@ public class MainActivity extends AppCompatActivity {
                         new User(),
                         "6b0c9e74-e717-4045-b9a3-409fd748dbba");
 
-        button.setOnClickListener(new View.OnClickListener() {
+        btnRegreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
+                // Utilizar el mismo switch para este click y el bottomNav
+                desactivarBoton(btnRegreso);
+                activarBoton(btnAjustes);
+
+                switch(binding.bottomNavigationView.getSelectedItemId()) {
+
+                    case R.id.principal:
+                        replaceFragment(new PrincipalFragment());
+                        break;
+                    case R.id.buscar:
+                        replaceFragment(new BuscarFragment());
+                        break;
+                    case R.id.ofertas:
+                        replaceFragment(new OfertasFragment());
+                        break;
+                    case R.id.carritos:
+                        replaceFragment(new CarritosFragment());
+                        break;
+                }
+            }
+        });
+
+        btnAjustes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new AjustesFragment());
+                desactivarBoton(btnAjustes);
+                activarBoton(btnRegreso);
 
             }
         });
 
+        // Este boton de cerrar de sesion se tiene que trasladar a otra pantalla
+//        btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FirebaseAuth.getInstance().signOut();
+//                Intent intent = new Intent(getApplicationContext(), Login.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+
+        // Boton del menu de navegacion - Arreglar
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            switch(item.getItemId()) {
+
+                case R.id.principal:
+                    replaceFragment(new PrincipalFragment());
+                    break;
+                case R.id.buscar:
+                    replaceFragment(new BuscarFragment());
+                    break;
+                case R.id.ofertas:
+                    replaceFragment(new OfertasFragment());
+                    break;
+                case R.id.carritos:
+                    replaceFragment(new CarritosFragment());
+                    break;
+            }
+
+            return true;
+        });
+
+
+        /* La visibilidad de la barra inferior de navegación dependerá de tener una sesió iniciada
+        * o no. Aunque también puede que para manejarlo lo tengamos en otra Actividad, pero la verdad
+        * es que no tengo ni idea de cómo se hacen aplicaciones Android y estoy un poco harto
+        * así que por ahora está así. */
+        // binding.bottomNavigationView.setVisibility(View.VISIBLE);
 
     }
+
+
+    // Metodo para cambiar de fragmento usando el menu inferior
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentoContenido, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void activarBoton(ImageButton boton) {
+        boton.setClickable(true);
+        boton.setColorFilter(getResources().getColor(R.color.mc_hardGrey));
+    }
+
+    private void desactivarBoton(ImageButton boton) {
+        boton.setClickable(false);
+        boton.setColorFilter(getResources().getColor(R.color.mc_softGrey));
+    }
+
+    // Comentario prueba stash
+
 }
