@@ -1,7 +1,5 @@
 package com.example.mascheap;
 
-import static com.example.mascheap.R.id.recycle_producto;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,15 +30,6 @@ public class BuscarFragment extends Fragment {
     public BuscarFragment() {
         // Required empty public constructor
     }
-
-//    public static BuscarFragment newInstance(String param1, String param2) {
-//        BuscarFragment fragment = new BuscarFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
