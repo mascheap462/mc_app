@@ -14,6 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mascheap.adaptador.SupermercadoAdaptador;
 import com.example.mascheap.helpers.DownloadImageFromInternet;
 import com.example.mascheap.modelo.Producto;
+import com.example.mascheap.modelo.ProductoSupermercado;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class BuscarDetalleFragment extends Fragment {
     private static Producto arg_producto;
@@ -49,7 +55,10 @@ public class BuscarDetalleFragment extends Fragment {
 
         nombre.setText(arg_producto.getNombre());
         cantidad.setText(arg_producto.getCantidad());
-        precio.setText(arg_producto.getSupermercados().stream().mapToDouble(m -> m.getPrecio()).min().toString());
+        double precioProd = arg_producto.getSupermercados().stream().mapToDouble(m -> m.getPrecio())
+                .min().orElseThrow(NoSuchElementException::new);
+
+        precio.setText(Double.toString(precioProd));
         marca.setText(arg_producto.getMarca());
         categoria.setText(arg_producto.getCategoria());
         descripcion.setText(arg_producto.getDescripcion());
@@ -58,7 +67,10 @@ public class BuscarDetalleFragment extends Fragment {
 
         supermercadoRV = view.findViewById(R.id.recycle_supermercado);
         supermercadoRV.setLayoutManager(new LinearLayoutManager(requireContext()));
-        supermercadoAdaptador = new SupermercadoAdaptador(arg_producto.getSupermercados(), requireContext());
+        supermercadoAdaptador = new SupermercadoAdaptador((ArrayList<ProductoSupermercado>) arg_producto.getSupermercados().stream()
+                .sorted(Comparator.comparingDouble(ProductoSupermercado::getPrecio))
+                .collect(Collectors.toList()), requireContext());
+
         supermercadoRV.setAdapter(supermercadoAdaptador);
         supermercadoAdaptador.notifyDataSetChanged();
 

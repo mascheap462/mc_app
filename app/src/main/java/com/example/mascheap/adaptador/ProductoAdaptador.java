@@ -18,6 +18,7 @@ import com.example.mascheap.helpers.DownloadImageFromInternet;
 import com.example.mascheap.modelo.Producto;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.ViewHolder> {
 
@@ -42,7 +43,8 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
         Producto producto = productos.get(position);
         holder.nombre.setText(producto.getNombre());
         holder.cantidad.setText(producto.getCantidad());
-        holder.precio.setText(producto.getSupermercados().stream().mapToDouble(m -> m.getPrecio()).min().toString());
+        double precio = producto.getSupermercados().stream().mapToDouble(m -> m.getPrecio()).min().orElseThrow(NoSuchElementException::new);
+        holder.precio.setText(Double.toString(precio));
         holder.marca.setText(producto.getMarca());
         holder.categoria.setText(producto.getCategoria());
         holder.descripcion.setText(producto.getDescripcion());
