@@ -88,7 +88,7 @@ public class Registro extends AppCompatActivity {
                 password = String.valueOf(editTextPassword.getText());
 
 
-                if(editTextUser.getText().toString().trim().length() < 8){
+                if (editTextUser.getText().toString().trim().length() < 8) {
                     editTextUser.setError("La longitud del email debe tener al menos 8 caracteres");
                 }
 
@@ -96,13 +96,13 @@ public class Registro extends AppCompatActivity {
 
                     editTextPassword.setError("La contraseña debe tener al menos 8 caracteres");
                 }
-                if(TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Registro.this, "Debe introducir su correo electrónico", Toast.LENGTH_LONG).show();
                     barraProgreso.setVisibility(View.GONE);
                     return;
                 }
 
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     Toast.makeText(Registro.this, "Debe introducir una contraseña", Toast.LENGTH_LONG).show();
                     barraProgreso.setVisibility(View.GONE);
                     return;

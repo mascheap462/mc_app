@@ -14,10 +14,10 @@ import com.example.mascheap.modelo.Carrito;
 
 import java.util.ArrayList;
 
-public class CarritoAdaptador extends RecyclerView.Adapter <CarritoAdaptador.ViewHolder>{
+public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.ViewHolder> {
 
-    private ArrayList<Carrito> lineas;
-    private Context context;
+    private final ArrayList<Carrito> lineas;
+    private final Context context;
 
     public CarritoAdaptador(ArrayList<Carrito> lineas, Context context) {
         this.lineas = lineas;
@@ -40,7 +40,7 @@ public class CarritoAdaptador extends RecyclerView.Adapter <CarritoAdaptador.Vie
 
     @Override
     public int getItemCount() {
-        if(lineas == null){
+        if (lineas == null) {
             return 0;
         }
         return lineas.size();
