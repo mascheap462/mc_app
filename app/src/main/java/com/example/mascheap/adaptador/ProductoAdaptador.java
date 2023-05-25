@@ -48,6 +48,7 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
         holder.descripcion.setText(producto.getDescripcion());
 
         new DownloadImageFromInternet(holder.url).execute(producto.getUrl());
+
         holder.itemView.setOnClickListener(v -> {
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
             BuscarDetalleFragment buscarDetalleFragment = BuscarDetalleFragment.newInstance(producto);

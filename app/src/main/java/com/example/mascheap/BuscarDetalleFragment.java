@@ -8,7 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mascheap.adaptador.SupermercadoAdaptador;
 import com.example.mascheap.helpers.DownloadImageFromInternet;
 import com.example.mascheap.modelo.Producto;
 
@@ -17,6 +20,8 @@ public class BuscarDetalleFragment extends Fragment {
     private View view;
     private TextView nombre, cantidad, precio, marca, categoria, descripcion;
     private ImageView url;
+    private SupermercadoAdaptador supermercadoAdaptador;
+    private RecyclerView supermercadoRV;
 
     public static BuscarDetalleFragment newInstance(Producto producto) {
         BuscarDetalleFragment fragment = new BuscarDetalleFragment();
@@ -50,6 +55,12 @@ public class BuscarDetalleFragment extends Fragment {
         descripcion.setText(arg_producto.getDescripcion());
 
         new DownloadImageFromInternet(url).execute(arg_producto.getUrl());
+
+        supermercadoRV = view.findViewById(R.id.recycle_supermercado);
+        supermercadoRV.setLayoutManager(new LinearLayoutManager(requireContext()));
+        supermercadoAdaptador = new SupermercadoAdaptador(arg_producto.getSupermercados(), requireContext());
+        supermercadoRV.setAdapter(supermercadoAdaptador);
+        supermercadoAdaptador.notifyDataSetChanged();
 
         return view;
     }

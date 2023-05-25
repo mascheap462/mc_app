@@ -4,10 +4,10 @@ import com.google.firebase.firestore.Exclude;
 
 public class ProductoSupermercado {
     private double precio;
-    private Supermercado Nombre;
-    public ProductoSupermercado(double precio, Supermercado nombre) {
+    private String nombre;
+    public ProductoSupermercado(double precio, String nombre) {
         this.precio = precio;
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
     public ProductoSupermercado() {
@@ -17,12 +17,12 @@ public class ProductoSupermercado {
         return precio;
     }
 
-    public Supermercado getNombre() {
-        return Nombre;
+    public String getNombre() {
+        return nombre;
     }
 
     @Exclude
     public String getUrl() {
-        return Nombre.getUrl();
+        return Supermercado.valueOf(nombre).getUrl();
     }
 }
