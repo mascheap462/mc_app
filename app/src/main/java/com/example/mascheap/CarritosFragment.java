@@ -10,13 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mascheap.adaptador.CarritoAdaptador;
-import com.example.mascheap.adaptador.ProductoAdaptador;
 import com.example.mascheap.modelo.Carrito;
-import com.example.mascheap.modelo.Producto;
 
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 import database.models.MasCheapFirestore;
 import database.models.callbacks.FirestoreCallbackList;

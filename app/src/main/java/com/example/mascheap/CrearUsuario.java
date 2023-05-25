@@ -1,13 +1,13 @@
 package com.example.mascheap;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,13 +17,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-//import database.models.Product;
-
-
 public class CrearUsuario extends AppCompatActivity {
     Button btn_agregar;
     EditText nombre, apellidos, edad;
     private FirebaseFirestore mFirebase;
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +30,10 @@ public class CrearUsuario extends AppCompatActivity {
 
         this.setTitle("Crear usuario");
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-
-
     }
 
     private void postUsuario(String name, String surname, String age) {
-        Map<String, Object > map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("nombre", nombre); //le pasamos como se va a llamar los campos en la base datos
         map.put("apellidos", apellidos);
         map.put("edad", edad);
@@ -49,20 +45,17 @@ public class CrearUsuario extends AppCompatActivity {
                 finish();
             }
 
-
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(), "Error al insertar", Toast.LENGTH_SHORT);
             }
         });
-
-        }
-
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
-      onBackPressed();
-      return false;
+        onBackPressed();
+        return false;
     }
 }

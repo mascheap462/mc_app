@@ -18,7 +18,8 @@ public class Carrito extends BaseEntity {
         this.nombre = nombre;
     }
 
-    public Carrito(){}
+    public Carrito() {
+    }
 
     public String getCantidad() {
         return cantidad;

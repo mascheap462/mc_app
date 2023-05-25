@@ -9,28 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import database.models.entities.BaseEntity;
-import database.models.entities.User;
 
 public class Producto extends BaseEntity {
     private String cantidad;
     private String nombre;
     private String descripcion;
-    private String precio;
     private String marca;
     private String categoria;
     private String url;
 
-    public Producto(String nombre,String cantidad,String descripcion, String precio, String marca, String categoria, String url) {
+    private ArrayList<ProductoSupermercado> supermercados;
+
+    public Producto(String nombre, String cantidad, String descripcion, String marca, String categoria, String url, ArrayList<ProductoSupermercado> supermercados) {
         this.descripcion = descripcion;
-        this.precio = precio;
         this.marca = marca;
         this.categoria = categoria;
-        this.cantidad= cantidad;
+        this.cantidad = cantidad;
         this.nombre = nombre;
         this.url = url;
+        this.supermercados = supermercados;
     }
 
-    public Producto(){}
+    public Producto() {
+    }
 
     public String getUrl() {
         return url;
@@ -48,13 +49,13 @@ public class Producto extends BaseEntity {
         this.descripcion = descripcion;
     }
 
-    public String getPrecio() {
+    /*public String getPrecio() {
         return precio;
     }
 
     public void setPrecio(String precio) {
         this.precio = precio;
-    }
+    }*/
 
     public String getMarca() {
         return marca;
@@ -86,6 +87,10 @@ public class Producto extends BaseEntity {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public ArrayList<ProductoSupermercado> getSupermercados() {
+        return supermercados;
     }
 
     @Override
