@@ -50,6 +50,9 @@ public class Carrito extends BaseEntity {
 
     @Override
     public BaseEntity Document(DocumentSnapshot document) {
+        if(document == null){
+            return null;
+        }
         return document.toObject(Carrito.class);
     }
 }

@@ -91,11 +91,9 @@ public class MasCheapFirestore {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
+                       // if (document.exists()) {
                             myCallback.onCallback(entity.Document(document));
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
+                       // }
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
                     }

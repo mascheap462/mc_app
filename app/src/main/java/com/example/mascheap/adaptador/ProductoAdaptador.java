@@ -22,7 +22,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import database.models.MasCheapFirestore;
 import database.models.callbacks.FirestoreCallback;
@@ -73,9 +76,20 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 FirebaseUser user = auth.getCurrentUser();
                 MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
-                    listaCompra.getProductos().add(producto);
-                    MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
+                   if(listaCompra == null)
+                   {
+                       listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
+                   }
 
+                    Optional<Producto> existeProducto = listaCompra.getProductos()
+                            .stream()
+                            .filter(f -> f.getId() .contains(producto.getId()))
+                            .findFirst();
+
+                    if(!existeProducto.isPresent()){
+                        listaCompra.getProductos().add(producto);
+                        MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
+                    }
                 }, new Carrito(),user.getEmail());
             }
         });
