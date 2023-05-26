@@ -55,6 +55,9 @@ public class CarritosFragment extends Fragment {
 
         MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
             carrito =  listaCompra;
+            if(listaCompra ==null){
+                listaCompra = new Carrito(user.getEmail(), new ArrayList<>());
+            }
             carritoAdapter = new CarritoAdaptador(listaCompra.getProductos(), requireContext());
             carritoRV.setAdapter(carritoAdapter);
             carritoAdapter.notifyDataSetChanged();

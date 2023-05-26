@@ -70,28 +70,25 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
                     .addToBackStack(null)
                     .commit();
         });
-        holder.add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                FirebaseUser user = auth.getCurrentUser();
-                MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
-                   if(listaCompra == null)
-                   {
-                       listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
-                   }
+        holder.add.setOnClickListener(v -> {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseUser user = auth.getCurrentUser();
+            MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
+               if(listaCompra == null)
+               {
+                   listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
+               }
 
-                    Optional<Producto> existeProducto = listaCompra.getProductos()
-                            .stream()
-                            .filter(f -> f.getId() .contains(producto.getId()))
-                            .findFirst();
+                Optional<Producto> existeProducto = listaCompra.getProductos()
+                        .stream()
+                        .filter(f -> f.getId() .contains(producto.getId()))
+                        .findFirst();
 
-                    if(!existeProducto.isPresent()){
-                        listaCompra.getProductos().add(producto);
-                        MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
-                    }
-                }, new Carrito(),user.getEmail());
-            }
+                if(!existeProducto.isPresent()){
+                    listaCompra.getProductos().add(producto);
+                    MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
+                }
+            }, new Carrito(),user.getEmail());
         });
     }
 

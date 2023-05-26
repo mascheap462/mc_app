@@ -4,19 +4,31 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mascheap.CarritosFragment;
 import com.example.mascheap.R;
 import com.example.mascheap.helpers.DownloadImageFromInternet;
 import com.example.mascheap.modelo.Carrito;
 import com.example.mascheap.modelo.Producto;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import database.models.MasCheapFirestore;
+import database.models.callbacks.FirestoreCallback;
 
 public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.ViewHolder> {
 
@@ -47,6 +59,35 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
         holder.descripcion.setText(producto.getDescripcion());
 
         new DownloadImageFromInternet(holder.url).execute(producto.getUrl());
+
+        holder.delete.setOnClickListener(v -> {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseUser user = auth.getCurrentUser();
+            MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
+                if(listaCompra == null)
+                {
+                    listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
+                }
+
+                Optional<Producto> existeProducto = listaCompra.getProductos()
+                        .stream()
+                        .filter(f -> f.getId() .contains(producto.getId()))
+                        .findFirst();
+
+                if(existeProducto.isPresent()){
+                    listaCompra.getProductos().remove(producto);
+                    MasCheapFirestore.getInstance().Delete(listaCompra);
+                    productos.remove(producto);
+
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentoContenido, new CarritosFragment())
+                            .addToBackStack(null)
+                            .commit();
+                }
+            }, new Carrito(),user.getEmail());
+        });
     }
 
     @Override
@@ -62,6 +103,8 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
         TextView nombre, cantidad, precio, marca, categoria, descripcion;
         ImageView url;
 
+        Button delete;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.txtview_nombre);
@@ -71,6 +114,7 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
             categoria = itemView.findViewById(R.id.txtview_categoria);
             descripcion = itemView.findViewById(R.id.txtview_descripcion);
             url = itemView.findViewById(R.id.imageView);
+            delete = itemView.findViewById(R.id.deleteProduct);
         }
     }
 }
