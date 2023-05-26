@@ -44,6 +44,12 @@ public class MasCheapFirestore {
                 .set(entity);
     }
 
+    public void Add(IBaseEntity entity, String id) {
+        entity.setId(id);
+        mDatabase.collection(getName(entity))
+                .document(entity.getId())
+                .set(entity);
+    }
     public void Update(IBaseEntity entity) {
         mDatabase.collection(getName(entity))
                 .document(entity.getId())
@@ -95,6 +101,8 @@ public class MasCheapFirestore {
                     }
                 });
     }
+
+
 
     @NonNull
     public String getName(IBaseEntity entity) {
