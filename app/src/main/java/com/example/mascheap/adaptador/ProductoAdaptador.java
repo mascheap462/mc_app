@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,10 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mascheap.BuscarDetalleFragment;
 import com.example.mascheap.R;
 import com.example.mascheap.helpers.DownloadImageFromInternet;
+import com.example.mascheap.modelo.Carrito;
 import com.example.mascheap.modelo.Producto;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import database.models.MasCheapFirestore;
+import database.models.callbacks.FirestoreCallback;
 
 public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.ViewHolder> {
 
@@ -60,6 +70,26 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
                     .addToBackStack(null)
                     .commit();
         });
+        holder.add.setOnClickListener(v -> {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseUser user = auth.getCurrentUser();
+            MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
+               if(listaCompra == null)
+               {
+                   listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
+               }
+
+                Optional<Producto> existeProducto = listaCompra.getProductos()
+                        .stream()
+                        .filter(f -> f.getId() .contains(producto.getId()))
+                        .findFirst();
+
+                if(!existeProducto.isPresent()){
+                    listaCompra.getProductos().add(producto);
+                    MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
+                }
+            }, new Carrito(),user.getEmail());
+        });
     }
 
     @Override
@@ -76,6 +106,7 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
         TextView nombre, cantidad, precio, marca, categoria, descripcion;
         ImageView url;
 
+        Button add;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.txtview_nombre);
@@ -85,6 +116,7 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
             categoria = itemView.findViewById(R.id.txtview_categoria);
             descripcion = itemView.findViewById(R.id.txtview_descripcion);
             url = itemView.findViewById(R.id.imageView);
+            add = itemView.findViewById(R.id.addProduct);
         }
     }
 }

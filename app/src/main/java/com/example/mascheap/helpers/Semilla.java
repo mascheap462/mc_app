@@ -1,5 +1,6 @@
 package com.example.mascheap.helpers;
 
+import com.example.mascheap.modelo.Carrito;
 import com.example.mascheap.modelo.Producto;
 import com.example.mascheap.modelo.ProductoSupermercado;
 import com.example.mascheap.modelo.Supermercado;
@@ -12,6 +13,39 @@ public class Semilla {
     public static void Execute() {
 
         CargarProductos();
+        CargarCarritoUsuarioBarbara();
+    }
+
+    private static void CargarCarritoUsuarioBarbara() {
+        String user = "barbara123@gmail.com";
+
+        ArrayList<Producto> productos = new ArrayList<Producto>() {
+            {
+                add(new Producto("Leche sin lactosa", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "Hacendado", "Lacteos", "https://prod-mercadona.imgix.net/images/4c383f76349faee5a3c079c48d3dcb44.jpg?fit=crop&h=1300&w=1300",
+                        new ArrayList<ProductoSupermercado>() {{
+                            add(new ProductoSupermercado(1.20, Supermercado.MERCADONA.toString()));
+                        }}));
+                add(new Producto("Leche semidesnatada", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "Milbona", "Lacteos", "https://es.openfoodfacts.org/images/products/20037321/front_es.29.full.jpg",
+                        new ArrayList<ProductoSupermercado>() {{
+                            add(new ProductoSupermercado(0.90, Supermercado.LIDL.toString()));
+                        }}));
+                add(new Producto("Leche entera", "1 L", "eget duis at tellus at urna condimentum mattis pellentesque id", "Puleva", "Lacteos", "https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202205/03/00120912100052____13__600x600.jpg",
+                        new ArrayList<ProductoSupermercado>() {{
+                            add(new ProductoSupermercado(1.50, Supermercado.CARREFOUR.toString()));
+                            add(new ProductoSupermercado(1.40, Supermercado.LIDL.toString()));
+                            add(new ProductoSupermercado(1.45, Supermercado.MERCADONA.toString()));
+                            add(new ProductoSupermercado(1.65, Supermercado.DIA.toString()));
+                        }}));
+            }
+        };
+
+        Carrito carrito = new Carrito("barbara123@gmail.com", productos);
+        MasCheapFirestore.getInstance().GetAll(list -> {
+            if (list.stream().count() > 0) {
+                return;
+            }
+            MasCheapFirestore.getInstance().Add(carrito, user);
+        }, new Carrito());
     }
 
     private static void CargarProductos() {
@@ -111,7 +145,6 @@ public class Semilla {
                 MasCheapFirestore.getInstance().Add(p);
             }
         }, new Producto());
-
 
     }
 }

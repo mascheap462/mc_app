@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,13 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mascheap.adaptador.SupermercadoAdaptador;
 import com.example.mascheap.helpers.DownloadImageFromInternet;
+import com.example.mascheap.modelo.Carrito;
 import com.example.mascheap.modelo.Producto;
 import com.example.mascheap.modelo.ProductoSupermercado;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import database.models.MasCheapFirestore;
+import database.models.callbacks.FirestoreCallback;
 
 public class BuscarDetalleFragment extends Fragment {
     private static Producto arg_producto;
@@ -28,7 +36,7 @@ public class BuscarDetalleFragment extends Fragment {
     private ImageView url;
     private SupermercadoAdaptador supermercadoAdaptador;
     private RecyclerView supermercadoRV;
-
+    private Button add;
     public static BuscarDetalleFragment newInstance(Producto producto) {
         BuscarDetalleFragment fragment = new BuscarDetalleFragment();
         arg_producto = producto;
@@ -52,6 +60,7 @@ public class BuscarDetalleFragment extends Fragment {
         categoria = view.findViewById(R.id.txtview_categoria);
         descripcion = view.findViewById(R.id.txtview_descripcion);
         url = view.findViewById(R.id.imageView);
+        add = view.findViewById(R.id.addProduct);
 
         nombre.setText(arg_producto.getNombre());
         cantidad.setText(arg_producto.getCantidad());
@@ -73,6 +82,27 @@ public class BuscarDetalleFragment extends Fragment {
 
         supermercadoRV.setAdapter(supermercadoAdaptador);
         supermercadoAdaptador.notifyDataSetChanged();
+
+        add.setOnClickListener(v -> {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseUser user = auth.getCurrentUser();
+            MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
+                if(listaCompra == null)
+                {
+                    listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
+                }
+
+                Optional<Producto> existeProducto = listaCompra.getProductos()
+                        .stream()
+                        .filter(f -> f.getId() .contains(arg_producto.getId()))
+                        .findFirst();
+
+                if(!existeProducto.isPresent()){
+                    listaCompra.getProductos().add(arg_producto);
+                    MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
+                }
+            }, new Carrito(),user.getEmail());
+        });
 
         return view;
     }

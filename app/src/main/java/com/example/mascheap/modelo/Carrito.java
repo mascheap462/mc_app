@@ -11,30 +11,30 @@ import java.util.List;
 import database.models.entities.BaseEntity;
 
 public class Carrito extends BaseEntity {
-    String cantidad, nombre;
+    String user;
+    ArrayList<Producto> productos;
+    public Carrito(String user, ArrayList<Producto> productos) {
+        this.user = user;
+        this.productos = productos;
+    }
 
-    public Carrito(String cantidad, String nombre) {
-        this.cantidad = cantidad;
-        this.nombre = nombre;
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public ArrayList<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(ArrayList<Producto> productos) {
+        this.productos = productos;
     }
 
     public Carrito() {
-    }
-
-    public String getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(String cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     @Override
@@ -50,6 +50,9 @@ public class Carrito extends BaseEntity {
 
     @Override
     public BaseEntity Document(DocumentSnapshot document) {
+        if(document == null){
+            return null;
+        }
         return document.toObject(Carrito.class);
     }
 }

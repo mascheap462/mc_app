@@ -11,22 +11,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mascheap.adaptador.CarritoAdaptador;
 import com.example.mascheap.modelo.Carrito;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
 import database.models.MasCheapFirestore;
+import database.models.callbacks.FirestoreCallback;
 import database.models.callbacks.FirestoreCallbackList;
 
 
 public class CarritosFragment extends Fragment {
 
     private RecyclerView carritoRV;
-    private ArrayList<Carrito> lineas;// =new ArrayList<>();;
+    private Carrito carrito;// =new ArrayList<>();;
     private CarritoAdaptador carritoAdapter;
     private View view;
+    FirebaseAuth auth;
+    FirebaseUser user;
+    // Asignacion de valores de Firebase
+
 
     public CarritosFragment() {
         // Required empty public constructor
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
     }
 
 
@@ -44,16 +53,15 @@ public class CarritosFragment extends Fragment {
         carritoRV = view.findViewById(R.id.recycle_carrito);
         carritoRV.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        MasCheapFirestore.getInstance().GetAll((FirestoreCallbackList<Carrito>) list -> {
-            lineas = (ArrayList<Carrito>) list;
-            carritoAdapter = new CarritoAdaptador(lineas, requireContext());
+        MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
+            carrito =  listaCompra;
+            if(listaCompra ==null){
+                listaCompra = new Carrito(user.getEmail(), new ArrayList<>());
+            }
+            carritoAdapter = new CarritoAdaptador(listaCompra.getProductos(), requireContext());
             carritoRV.setAdapter(carritoAdapter);
-            /*ArrayList<Carrito> lineas2= (ArrayList<Carrito>) lineas
-                    .stream()
-                    .reduce(r->r.getCantidad().)
-                    .collect(Collectors.toList());*/
             carritoAdapter.notifyDataSetChanged();
-        }, new Carrito());
+        }, new Carrito(),user.getEmail());
 
         return view;
     }

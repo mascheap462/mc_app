@@ -13,7 +13,7 @@ public abstract class BaseEntity implements IBaseEntity {
 
     @Override
     public void setId(String id) {
-        this.id = UUID.randomUUID().toString();
+        this.id = id;
     }
 
     @Override

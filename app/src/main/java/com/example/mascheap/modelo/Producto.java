@@ -49,14 +49,6 @@ public class Producto extends BaseEntity {
         this.descripcion = descripcion;
     }
 
-    /*public String getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(String precio) {
-        this.precio = precio;
-    }*/
-
     public String getMarca() {
         return marca;
     }
