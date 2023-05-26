@@ -75,10 +75,9 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
                         .findFirst();
 
                 if(existeProducto.isPresent()){
-                    listaCompra.getProductos().remove(producto);
-                    MasCheapFirestore.getInstance().Delete(listaCompra);
                     productos.remove(producto);
-
+                    listaCompra.setProductos(productos);
+                    MasCheapFirestore.getInstance().Update(listaCompra);
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     activity.getSupportFragmentManager()
                             .beginTransaction()
