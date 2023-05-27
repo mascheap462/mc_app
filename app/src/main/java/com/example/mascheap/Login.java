@@ -89,15 +89,16 @@ public class Login extends AppCompatActivity {
 
                 email = String.valueOf(editTextUser.getText());
                 password = String.valueOf(editTextPassword.getText());
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
                 if (editTextUser.getText().toString().trim().length() < 8) {
                     editTextUser.setError("La longitud del email debe tener al menos 8 caracteres");
+                    editTextPassword.setText("");
                 }
 
                 if (editTextPassword.getText().toString().trim().length() < 8) {
-                    //layoutPassword.setPasswordVisibilityToggleEnabled(false);
                     editTextPassword.setError("La contraseña debe tener al menos 8 caracteres");
-
+                    editTextUser.setText("");
                 }
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Login.this, "Debe introducir su correo electrónico", Toast.LENGTH_LONG).show();
@@ -110,7 +111,12 @@ public class Login extends AppCompatActivity {
                     barraProgreso.setVisibility(View.GONE);
                     return;
                 }
-
+                if(!editTextUser.getText().toString().matches(emailPattern)){
+                    editTextUser.setText("");
+                    editTextUser.setError("El formato del email introducido no es valido");
+                    return;
+                }
+                editTextPassword.setText("");
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -123,6 +129,7 @@ public class Login extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 } else {
+
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(Login.this, "Fallo de autenticación.",
                                             Toast.LENGTH_SHORT).show();

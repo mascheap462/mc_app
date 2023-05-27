@@ -14,9 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MasCheap"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        >
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +33,12 @@
 
         <activity
             android:name=".Registro"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".Login"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
     </application>
