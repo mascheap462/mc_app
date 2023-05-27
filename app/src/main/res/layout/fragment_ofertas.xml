@@ -6,11 +6,33 @@
     tools:context=".OfertasFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!--<TextView
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ofertas"
-        android:textSize="30dp"/>
+        android:textSize="30dp"/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/aportaOferta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/aportaOferta"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_weight="1" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_oferta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </FrameLayout>
