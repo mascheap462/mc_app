@@ -58,7 +58,7 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
         holder.precio.setText(Double.toString(precio) + "€");
         holder.marca.setText(producto.getMarca());
         holder.categoria.setText(producto.getCategoria());
-        holder.descripcion.setText(producto.getDescripcion());
+
 
         new DownloadImageFromInternet(holder.url).execute(producto.getUrl());
 
@@ -117,7 +117,7 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our text views.
-        TextView nombre, cantidad, precio, marca, categoria, descripcion;
+        TextView nombre, cantidad, precio, marca, categoria;
         ImageView url;
 
         Button delete;
@@ -129,7 +129,7 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
             precio = itemView.findViewById(R.id.txtview_precio);
             marca = itemView.findViewById(R.id.txtview_marca);
             categoria = itemView.findViewById(R.id.txtview_categoria);
-            descripcion = itemView.findViewById(R.id.txtview_descripcion);
+
             url = itemView.findViewById(R.id.imageView);
             delete = itemView.findViewById(R.id.deleteProduct);
         }

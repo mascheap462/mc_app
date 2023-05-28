@@ -101,7 +101,7 @@ public class OfertaAdaptador extends RecyclerView.Adapter<OfertaAdaptador.ViewHo
         TextView producto, usuario, precio;
         ImageView urlProducto, iconoSuper;
 
-        Button add;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             producto = itemView.findViewById(R.id.txtview_producto);
@@ -109,7 +109,6 @@ public class OfertaAdaptador extends RecyclerView.Adapter<OfertaAdaptador.ViewHo
             precio = itemView.findViewById(R.id.txtview_precioOferta);
             urlProducto = itemView.findViewById(R.id.imageViewOferta);
             iconoSuper = itemView.findViewById(R.id.iconoSuper);
-            add = itemView.findViewById(R.id.addProductOferta);
         }
     }
 }
