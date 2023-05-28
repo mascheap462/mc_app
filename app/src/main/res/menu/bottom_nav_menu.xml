@@ -10,8 +10,8 @@
     <item android:title="Ofertas"
         android:id="@+id/ofertas"
         android:icon="@drawable/ic_baseline_signpost_24"/>
-    <item android:title="Carritos"
+    <item android:title="Lista"
         android:id="@+id/carritos"
-        android:icon="@drawable/ic_baseline_shopping_cart_24"/>
+        android:icon="@drawable/ic_baseline_edit_note_24"/>
 
 </menu>
