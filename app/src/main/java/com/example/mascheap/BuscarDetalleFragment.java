@@ -112,7 +112,7 @@ public class BuscarDetalleFragment extends Fragment {
                     Toast toast = Toast.makeText(v.getContext(), "Producto añadido con éxito", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
-                    Toast toast = Toast.makeText(v.getContext(), "El producto ya está en el carrito", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(v.getContext(), "El producto ya se encuentra en la lista", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }, new Carrito(),user.getEmail());
