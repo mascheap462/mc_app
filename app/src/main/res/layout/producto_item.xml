@@ -37,7 +37,8 @@
                     android:id="@+id/txtview_nombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombre" />
+                    android:text="Nombre"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/txtview_cantidad"

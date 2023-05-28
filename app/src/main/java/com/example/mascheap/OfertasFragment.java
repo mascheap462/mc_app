@@ -59,14 +59,14 @@ public class OfertasFragment extends Fragment {
             ofertaAdapter.notifyDataSetChanged();
         }, new Oferta());
 
-        /*aportaOferta.setOnClickListener(new View.OnClickListener() {
+        aportaOferta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 formularioOfertaFragment formulario = new formularioOfertaFragment();
                 formulario.show(getFragmentManager(), getString(R.string.aportaOferta));
-                formulario.setTargetFragment(formularioOfertaFragment.this, 1);
+                formulario.setTargetFragment(OfertasFragment.this, 1);
             }
-        });*/
+        });
 
         return view;
     }
