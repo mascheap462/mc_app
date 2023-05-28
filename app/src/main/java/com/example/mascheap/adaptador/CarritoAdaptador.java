@@ -55,7 +55,7 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
         holder.nombre.setText(producto.getNombre());
         holder.cantidad.setText(producto.getCantidad());
         double precio = producto.getSupermercados().stream().mapToDouble(m -> m.getPrecio()).min().orElseThrow(NoSuchElementException::new);
-        holder.precio.setText(Double.toString(precio));
+        holder.precio.setText(Double.toString(precio) + "€");
         holder.marca.setText(producto.getMarca());
         holder.categoria.setText(producto.getCategoria());
         holder.descripcion.setText(producto.getDescripcion());

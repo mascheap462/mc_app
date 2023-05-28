@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,10 +55,9 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
         holder.nombre.setText(producto.getNombre());
         holder.cantidad.setText(producto.getCantidad());
         double precio = producto.getSupermercados().stream().mapToDouble(m -> m.getPrecio()).min().orElseThrow(NoSuchElementException::new);
-        holder.precio.setText(Double.toString(precio));
+        holder.precio.setText(Double.toString(precio) + "€");
         holder.marca.setText(producto.getMarca());
         holder.categoria.setText(producto.getCategoria());
-        holder.descripcion.setText(producto.getDescripcion());
 
         new DownloadImageFromInternet(holder.url).execute(producto.getUrl());
 
@@ -69,26 +69,6 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
                     .replace(R.id.fragmentoContenido, buscarDetalleFragment)
                     .addToBackStack(null)
                     .commit();
-        });
-        holder.add.setOnClickListener(v -> {
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            FirebaseUser user = auth.getCurrentUser();
-            MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
-               if(listaCompra == null)
-               {
-                   listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
-               }
-
-                Optional<Producto> existeProducto = listaCompra.getProductos()
-                        .stream()
-                        .filter(f -> f.getId() .contains(producto.getId()))
-                        .findFirst();
-
-                if(!existeProducto.isPresent()){
-                    listaCompra.getProductos().add(producto);
-                    MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
-                }
-            }, new Carrito(),user.getEmail());
         });
     }
 
@@ -103,10 +83,9 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
         // creating variables for our text views.
-        TextView nombre, cantidad, precio, marca, categoria, descripcion;
+        TextView nombre, cantidad, precio, marca, categoria;
         ImageView url;
 
-        Button add;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.txtview_nombre);
@@ -114,9 +93,7 @@ public class ProductoAdaptador extends RecyclerView.Adapter<ProductoAdaptador.Vi
             precio = itemView.findViewById(R.id.txtview_precio);
             marca = itemView.findViewById(R.id.txtview_marca);
             categoria = itemView.findViewById(R.id.txtview_categoria);
-            descripcion = itemView.findViewById(R.id.txtview_descripcion);
             url = itemView.findViewById(R.id.imageView);
-            add = itemView.findViewById(R.id.addProduct);
         }
     }
 }

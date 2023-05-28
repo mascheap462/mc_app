@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -75,7 +76,7 @@ public class BuscarDetalleFragment extends Fragment {
         double precioProd = arg_producto.getSupermercados().stream().mapToDouble(m -> m.getPrecio())
                 .min().orElseThrow(NoSuchElementException::new);
 
-        precio.setText(Double.toString(precioProd));
+        precio.setText(Double.toString(precioProd) + "€");
         marca.setText(arg_producto.getMarca());
         categoria.setText(arg_producto.getCategoria());
         descripcion.setText(arg_producto.getDescripcion());
@@ -108,6 +109,9 @@ public class BuscarDetalleFragment extends Fragment {
                 if(!existeProducto.isPresent()){
                     listaCompra.getProductos().add(arg_producto);
                     MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
+                } else {
+                    Toast toast = Toast.makeText(v.getContext(), "El producto ya esta en el carrito", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }, new Carrito(),user.getEmail());
         });
