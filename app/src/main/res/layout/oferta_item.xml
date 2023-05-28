@@ -8,9 +8,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="226dp"
+        android:layout_height="150dp"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@drawable/shapeborder"
+        >
 
         <ImageView
             android:id="@+id/imageViewOferta"
@@ -18,7 +20,7 @@
             android:layout_height="100dp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="9dp"
             />
 
         <LinearLayout
@@ -63,20 +65,9 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"
-                android:layout_marginTop="20dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                />
-
-            <Button
-                android:id="@+id/addProductOferta"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="right"
                 android:layout_marginTop="30dp"
-                android:text="+"
-                android:textSize="25dp"
-                android:background="@drawable/shape"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 />
 
         </LinearLayout>

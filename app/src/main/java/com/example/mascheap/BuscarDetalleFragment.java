@@ -109,8 +109,10 @@ public class BuscarDetalleFragment extends Fragment {
                 if(!existeProducto.isPresent()){
                     listaCompra.getProductos().add(arg_producto);
                     MasCheapFirestore.getInstance().Add(listaCompra, user.getEmail());
+                    Toast toast = Toast.makeText(v.getContext(), "Producto añadido con éxito", Toast.LENGTH_SHORT);
+                    toast.show();
                 } else {
-                    Toast toast = Toast.makeText(v.getContext(), "El producto ya esta en el carrito", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(v.getContext(), "El producto ya está en el carrito", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }, new Carrito(),user.getEmail());
