@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mascheap.R;
@@ -40,7 +41,9 @@ public class SupermercadoAdaptador extends RecyclerView.Adapter<SupermercadoAdap
         if(position == 0) {
             holder.mejorPrecio.setVisibility(View.VISIBLE);
             holder.nombre.setTypeface(null, Typeface.BOLD);
+            holder.nombre.setTextColor(ContextCompat.getColor(context, R.color.mc_accent));
             holder.precio.setTypeface(null, Typeface.BOLD);
+            holder.precio.setTextColor(ContextCompat.getColor(context, R.color.mc_accent));
         }
         holder.nombre.setText(supermercado.getNombre().toString());
         holder.precio.setText(Double.toString(supermercado.getPrecio()) + "€");
