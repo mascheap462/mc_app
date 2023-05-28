@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mascheap.adaptador.SupermercadoAdaptador;
 import com.example.mascheap.helpers.DownloadImageFromInternet;
 import com.example.mascheap.modelo.Carrito;
+import com.example.mascheap.modelo.Oferta;
 import com.example.mascheap.modelo.Producto;
 import com.example.mascheap.modelo.ProductoSupermercado;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +32,7 @@ import database.models.callbacks.FirestoreCallback;
 
 public class BuscarDetalleFragment extends Fragment {
     private static Producto arg_producto;
+    private static Oferta arg_oferta;
     private View view;
     private TextView nombre, cantidad, precio, marca, categoria, descripcion;
     private ImageView url;
@@ -40,6 +42,12 @@ public class BuscarDetalleFragment extends Fragment {
     public static BuscarDetalleFragment newInstance(Producto producto) {
         BuscarDetalleFragment fragment = new BuscarDetalleFragment();
         arg_producto = producto;
+        return fragment;
+    }
+
+    public static BuscarDetalleFragment newInstance(Oferta oferta) {
+        BuscarDetalleFragment fragment = new BuscarDetalleFragment();
+        arg_oferta = oferta;
         return fragment;
     }
 

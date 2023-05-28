@@ -1,6 +1,7 @@
 package com.example.mascheap.adaptador;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -61,31 +63,47 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
         new DownloadImageFromInternet(holder.url).execute(producto.getUrl());
 
         holder.delete.setOnClickListener(v -> {
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            FirebaseUser user = auth.getCurrentUser();
-            MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
-                if(listaCompra == null)
-                {
-                    listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
-                }
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle("Eliminar producto");
+            builder.setMessage("¿Estás seguro de que deseas eliminar este producto?");
+            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    FirebaseUser user = auth.getCurrentUser();
+                    MasCheapFirestore.getInstance().GetById((FirestoreCallback<Carrito>) listaCompra -> {
+                        if (listaCompra == null) {
+                            listaCompra = new Carrito(user.getEmail(), new ArrayList<Producto>());
+                        }
 
-                Optional<Producto> existeProducto = listaCompra.getProductos()
-                        .stream()
-                        .filter(f -> f.getId() .contains(producto.getId()))
-                        .findFirst();
+                        Optional<Producto> existeProducto = listaCompra.getProductos()
+                                .stream()
+                                .filter(f -> f.getId().contains(producto.getId()))
+                                .findFirst();
 
-                if(existeProducto.isPresent()){
-                    productos.remove(producto);
-                    listaCompra.setProductos(productos);
-                    MasCheapFirestore.getInstance().Update(listaCompra);
-                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragmentoContenido, new CarritosFragment())
-                            .addToBackStack(null)
-                            .commit();
+                        if (existeProducto.isPresent()) {
+                            productos.remove(producto);
+                            listaCompra.setProductos(productos);
+                            MasCheapFirestore.getInstance().Update(listaCompra);
+                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                            activity.getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragmentoContenido, new CarritosFragment())
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                    }, new Carrito(), user.getEmail());
                 }
-            }, new Carrito(),user.getEmail());
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // No hacer nada, simplemente cerrar el diálogo
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 

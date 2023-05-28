@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/cerrarSesion"
-        android:backgroundTint="@color/mc_accent"/>
+        android:backgroundTint="@color/mc_accent"
+        android:background="@drawable/shape"/>
 
 </LinearLayout>
