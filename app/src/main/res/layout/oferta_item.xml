@@ -12,6 +12,7 @@
         android:orientation="horizontal"
         android:padding="16dp"
         android:background="@drawable/shapeborder"
+        android:layout_marginBottom="8dp"
         >
 
         <ImageView

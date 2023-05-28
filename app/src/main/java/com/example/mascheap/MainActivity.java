@@ -123,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new CarritosFragment());
                     break;
             }
-
+            desactivarBoton(btnRegreso);
+            activarBoton(btnAjustes);
             return true;
         });
 
