@@ -56,7 +56,9 @@
         android:id="@+id/btn_registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/crearCuenta" />
+        android:text="@string/crearCuenta"
+        android:background="@drawable/shape"
+        />
 
     <TextView
         android:id="@+id/iniciarSesion"

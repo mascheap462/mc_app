@@ -1,6 +1,7 @@
 package com.example.mascheap.helpers;
 
 import com.example.mascheap.modelo.Carrito;
+import com.example.mascheap.modelo.Oferta;
 import com.example.mascheap.modelo.Producto;
 import com.example.mascheap.modelo.ProductoSupermercado;
 import com.example.mascheap.modelo.Supermercado;
@@ -14,6 +15,7 @@ public class Semilla {
 
         CargarProductos();
         CargarCarritoUsuarioBarbara();
+        //CargarOfertas();
     }
 
     private static void CargarCarritoUsuarioBarbara() {
@@ -147,4 +149,11 @@ public class Semilla {
         }, new Producto());
 
     }
+
+    /*private static void CargarOfertas(){
+        ArrayList<Oferta> ofertas = new ArrayList<Producto>(){
+            add(new Oferta("Arroz Bomba", "Pepe Gonzalez", "0.87 €", "https://www.comergrup.com/img/fotografias/2711004100.jpg",Supermercado.CARREFOUR.toString());
+
+        }
+    };*/
 }
