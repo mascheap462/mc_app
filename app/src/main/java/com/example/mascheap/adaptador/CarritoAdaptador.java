@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mascheap.BuscarDetalleFragment;
 import com.example.mascheap.CarritosFragment;
 import com.example.mascheap.R;
 import com.example.mascheap.helpers.DownloadImageFromInternet;
@@ -61,6 +62,16 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
 
 
         new DownloadImageFromInternet(holder.url).execute(producto.getUrl());
+
+        holder.itemView.setOnClickListener(v -> {
+            AppCompatActivity activity = (AppCompatActivity) v.getContext();
+            BuscarDetalleFragment buscarDetalleFragment = BuscarDetalleFragment.newInstance(producto);
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentoContenido, buscarDetalleFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         holder.delete.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
