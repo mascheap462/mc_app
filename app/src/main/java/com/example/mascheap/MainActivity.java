@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     // Textos
     TextView txtCorreo;
     // Botones
-    ImageButton btnRegreso;
+    public static ImageButton btnRegreso;
     ImageButton btnAjustes;
 
     @SuppressLint("MissingInflatedId")
@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void activarBoton(ImageButton boton) {
+    public static void activarBoton(ImageButton boton) {
         boton.setClickable(true);
-        boton.setColorFilter(getResources().getColor(R.color.mc_hardGrey));
+        boton.setColorFilter(Color.parseColor("#AAAAAA"));
     }
 
     private void desactivarBoton(ImageButton boton) {

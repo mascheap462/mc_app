@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mascheap.BuscarDetalleFragment;
 import com.example.mascheap.CarritosFragment;
+import com.example.mascheap.MainActivity;
 import com.example.mascheap.R;
 import com.example.mascheap.helpers.DownloadImageFromInternet;
 import com.example.mascheap.modelo.Carrito;
@@ -71,6 +72,8 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
                     .replace(R.id.fragmentoContenido, buscarDetalleFragment)
                     .addToBackStack(null)
                     .commit();
+
+            MainActivity.activarBoton(MainActivity.btnRegreso);
         });
 
         holder.delete.setOnClickListener(v -> {
