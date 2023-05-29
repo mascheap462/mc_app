@@ -39,14 +39,16 @@
             android:background="@drawable/shapelayout"
             >
             <TextView
-                android:id="@+id/txtview_letrero_particular"
+                android:id="@+id/txtview_letrero_supermercado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¡OFERTA DEL DÍA - PARTICULAR!"
+                android:text="¡OFERTA DEL DÍA - SUPERMERCADO!"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,15 +148,14 @@
             android:background="@drawable/shapelayout"
             >
             <TextView
-                android:id="@+id/txtview_letrero_supermercado"
+                android:id="@+id/txtview_letrero_particular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¡OFERTA DEL DÍA - SUPERMERCADO!"
+                android:text="¡OFERTA DEL DÍA - PARTICULAR!"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                />
+                android:layout_gravity="center"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
