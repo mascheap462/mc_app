@@ -1,10 +1,12 @@
 package com.example.mascheap;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,18 +76,40 @@ public class BuscarFragment extends Fragment {
         });
     }
 
-    protected void textSearch(String s) {
-        ArrayList<Producto> productosFiltrados = (ArrayList<Producto>) productos
-                .stream()
-                .filter(f -> f.getNombre().toLowerCase(Locale.ROOT)
-                        .contains(s.toLowerCase(Locale.ROOT))
-                        || f.getCategoria().toLowerCase(Locale.ROOT)
-                        .contains(s.toLowerCase(Locale.ROOT))
-                        || f.getMarca().toLowerCase(Locale.ROOT)
-                        .contains(s.toLowerCase(Locale.ROOT)))
-                .collect(Collectors.toList());
-        productoAdapter = new ProductoAdaptador(productosFiltrados, requireContext());
-        productoRV.setAdapter(productoAdapter);
+    private Handler searchHandler = new Handler();
+    private Runnable searchRunnable;
+
+    protected void textSearch(final String s) {
+        if (searchRunnable != null) {
+            searchHandler.removeCallbacks(searchRunnable);
+        }
+
+        searchRunnable = new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Producto> productosFiltrados = (ArrayList<Producto>) productos
+                        .stream()
+                        .filter(f -> f.getNombre().toLowerCase(Locale.ROOT)
+                                .contains(s.toLowerCase(Locale.ROOT))
+                                || f.getCategoria().toLowerCase(Locale.ROOT)
+                                .contains(s.toLowerCase(Locale.ROOT))
+                                || f.getMarca().toLowerCase(Locale.ROOT)
+                                .contains(s.toLowerCase(Locale.ROOT)))
+                        .collect(Collectors.toList());
+
+                if (productosFiltrados.isEmpty()) {
+                    Toast.makeText(requireContext(), "No se encontraron resultados", Toast.LENGTH_SHORT).show();
+                    productoAdapter = new ProductoAdaptador(productosFiltrados, requireContext());
+                    productoRV.setAdapter(productoAdapter);
+
+                } else {
+                    productoAdapter = new ProductoAdaptador(productosFiltrados, requireContext());
+                    productoRV.setAdapter(productoAdapter);
+                }
+            }
+        };
+
+        searchHandler.postDelayed(searchRunnable, 1000); // Retraso de 300 milisegundos (0.3 segundos)
     }
 
 }
