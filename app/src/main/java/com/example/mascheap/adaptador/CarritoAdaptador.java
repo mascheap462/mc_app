@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mascheap.BuscarDetalleFragment;
+import com.example.mascheap.CarritoDetalleFragment;
 import com.example.mascheap.CarritosFragment;
 import com.example.mascheap.MainActivity;
 import com.example.mascheap.R;
@@ -66,10 +67,10 @@ public class CarritoAdaptador extends RecyclerView.Adapter<CarritoAdaptador.View
 
         holder.itemView.setOnClickListener(v -> {
             AppCompatActivity activity = (AppCompatActivity) v.getContext();
-            BuscarDetalleFragment buscarDetalleFragment = BuscarDetalleFragment.newInstance(producto);
+            CarritoDetalleFragment carritoDetalleFragment = CarritoDetalleFragment.newInstance(producto);
             activity.getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragmentoContenido, buscarDetalleFragment)
+                    .replace(R.id.fragmentoContenido, carritoDetalleFragment)
                     .addToBackStack(null)
                     .commit();
 
