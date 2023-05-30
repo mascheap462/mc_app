@@ -48,13 +48,18 @@ public class BuscarFragment extends Fragment {
             return view;
         }
 
+
+
         productoRV = view.findViewById(R.id.recycle_producto);
+        productoRV.setHasFixedSize(true);
+        productoRV.setItemViewCacheSize(10);
         productoRV.setLayoutManager(new LinearLayoutManager(requireContext()));
         buscador_view = view.findViewById(R.id.buscador);
 
         MasCheapFirestore.getInstance().GetAll((FirestoreCallbackList<Producto>) list -> {
             productos = (ArrayList<Producto>) list;
             productoAdapter = new ProductoAdaptador(productos, getActivity());
+            productoAdapter.setHasStableIds(true);
             productoRV.setAdapter(productoAdapter);
             productoAdapter.notifyDataSetChanged();
         }, new Producto());
