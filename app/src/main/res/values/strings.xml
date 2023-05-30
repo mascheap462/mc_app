@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">MasCheap</string>
-    <string name="login">Login</string>
+    <string name="login">Iniciar Sesión</string>
     <string name="email">Email</string>
     <string name="correo">Correo electrónico</string>
     <string name="password">Contraseña</string>
     <string name="mostrar"> Mostrar contraseña</string>
-    <string name="enter">Iniciar sesión</string>
+    <string name="enter">Entrar</string>
     <string name="registro">Registro</string>
     <string name="crearCuenta">Crear cuenta</string>
     <string name="clicLogin">Haga clic aquí para crear una cuenta</string>
