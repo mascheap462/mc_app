@@ -48,11 +48,11 @@ public class BuscarFragment extends Fragment {
             return view;
         }
 
-
-
         productoRV = view.findViewById(R.id.recycle_producto);
+
         productoRV.setHasFixedSize(true);
         productoRV.setItemViewCacheSize(10);
+
         productoRV.setLayoutManager(new LinearLayoutManager(requireContext()));
         buscador_view = view.findViewById(R.id.buscador);
 
