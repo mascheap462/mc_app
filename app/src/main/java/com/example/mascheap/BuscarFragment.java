@@ -44,13 +44,17 @@ public class BuscarFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_buscar, container, false);
 
+        if (!isAdded()) {
+            return view;
+        }
+
         productoRV = view.findViewById(R.id.recycle_producto);
         productoRV.setLayoutManager(new LinearLayoutManager(requireContext()));
         buscador_view = view.findViewById(R.id.buscador);
 
         MasCheapFirestore.getInstance().GetAll((FirestoreCallbackList<Producto>) list -> {
             productos = (ArrayList<Producto>) list;
-            productoAdapter = new ProductoAdaptador(productos, requireContext());
+            productoAdapter = new ProductoAdaptador(productos, getActivity());
             productoRV.setAdapter(productoAdapter);
             productoAdapter.notifyDataSetChanged();
         }, new Producto());

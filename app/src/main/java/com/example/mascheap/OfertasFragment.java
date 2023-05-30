@@ -54,7 +54,7 @@ public class OfertasFragment extends Fragment {
 
         MasCheapFirestore.getInstance().GetAll((FirestoreCallbackList<Oferta>) list -> {
             ofertas = (ArrayList<Oferta>) list;
-            ofertaAdapter = new OfertaAdaptador(ofertas, requireContext());
+            ofertaAdapter = new OfertaAdaptador(ofertas, getActivity());
             ofertaRV.setAdapter(ofertaAdapter);
             ofertaAdapter.notifyDataSetChanged();
         }, new Oferta());

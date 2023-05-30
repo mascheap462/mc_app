@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#E81919</color>
     <color name="mc_accent">#1B93D7</color>
+    <color name="mc_accentDark">#156FA3</color>
     <color name="mc_hardGrey">#AAAAAA</color>
     <color name="mc_softGrey">#E6E6E6</color>
     <color name="mc_backgroundGrey">#F5F5F5</color>

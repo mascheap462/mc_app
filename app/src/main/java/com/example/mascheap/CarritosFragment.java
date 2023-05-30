@@ -58,7 +58,7 @@ public class CarritosFragment extends Fragment {
             if(listaCompra ==null){
                 listaCompra = new Carrito(user.getEmail(), new ArrayList<>());
             }
-            carritoAdapter = new CarritoAdaptador(listaCompra.getProductos(), requireContext());
+            carritoAdapter = new CarritoAdaptador(listaCompra.getProductos(), getActivity());
             carritoRV.setAdapter(carritoAdapter);
             carritoAdapter.notifyDataSetChanged();
         }, new Carrito(),user.getEmail());
