@@ -2,24 +2,174 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AjustesFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/shapeborder"
+    android:paddingVertical="20dp">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:padding="5dp"
+            android:src="@drawable/perfilgenericoredondo">
+        </ImageView>
+
+    <LinearLayout
+        android:id="@+id/camposCorreo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correo electrónico"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shapeborder"
+            android:paddingBottom="5dp"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/txtCorreoUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginTop="5dp"
+                android:text="correoelectronico@correo.com"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/camposContrasenia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contraseña"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shapeborder"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/txtContrasenia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="*******************"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notificaciones"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="10dp">
+        </TextView>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/btnNotificaciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="true">
+        </com.google.android.material.switchmaterial.SwitchMaterial>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modo Oscuro"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="10dp">
+        </TextView>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/mc_hardGrey"
+            android:textColor="@color/white"
+            android:clickable="false">
+        </com.google.android.material.switchmaterial.SwitchMaterial>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lytCuadroSuscripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shapeborder"
         android:layout_gravity="center"
-        android:padding="5dp"
-        android:layout_marginTop="7dp"
-        android:src="@drawable/perfilgenerico"
-        ></ImageView>
-    <TextView
-        android:id="@+id/txtCorreoUsuario"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Suscrito desde "/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="italic"
+            android:text="07/06/2023"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnAdminSuscripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="correoelectronico@correo.com"/>
+        android:text="Administrar suscripción"
+        android:backgroundTint="@color/mc_accent"
+        android:background="@drawable/shape"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/btnCerrarSesion"
@@ -29,7 +179,6 @@
         android:text="@string/cerrarSesion"
         android:backgroundTint="@color/mc_accent"
         android:background="@drawable/shape"
-        android:layout_marginTop="20dp"
-        />
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>
